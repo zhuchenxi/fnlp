@@ -367,9 +367,20 @@ public class FNLPCorpus {
 		}
 	}
 
-	public int getDocumenSize() {
+	public int getDocumenNum() {
 		
 		return docs.size();
+	}
+	
+	
+	public int getSentenceNum() {
+		Iterator<FNLPDoc> it1 = docs.iterator();
+		int n=0;
+		while(it1.hasNext()){
+			FNLPDoc doc = it1.next();
+			n += doc.sentences.size();
+		}
+		return n;
 	}
 
 	public  FNLPDoc getDoc(int idx) {
@@ -392,8 +403,7 @@ public class FNLPCorpus {
 				FNLPSent sent = it2.next();
 				if(!sent.hasTag())
 					continue;
-				for(int i=0;i<sent.size();i++){
-					
+				for(int i=0;i<sent.size();i++){					
 					set.add(sent.tags[i]);
 				}
 			}
@@ -402,5 +412,32 @@ public class FNLPCorpus {
 		return set;
 		
 	}
+	
+	/**
+	 * 得到所有关系类型
+	 * @return
+	 */
+	public TreeSet<String> getAllRelations() {
+		TreeSet<String> set = new TreeSet<String>(); 
+		Iterator<FNLPDoc> it1 = docs.iterator();
+		while(it1.hasNext()){
+			FNLPDoc doc = it1.next();
+			Iterator<FNLPSent> it2 = doc.sentences.iterator();
+			while(it2.hasNext()){
+				FNLPSent sent = it2.next();
+				if(!sent.hasRelation())
+					continue;
+				for(int i=0;i<sent.size();i++){					
+					set.add(sent.relations[i]);
+				}
+			}
+
+		}
+		return set;
+		
+	}
+
+
+	
 
 }
